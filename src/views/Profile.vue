@@ -3,7 +3,7 @@
     <v-container fluid>
       <h1>Edit Profile</h1>
 
-      <v-card>
+      <v-card elevation="4">
         <v-card-title>
           Edit
         </v-card-title>
