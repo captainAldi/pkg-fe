@@ -214,7 +214,7 @@ export default {
       if (this.guest === false) {
         let completeFileName = this.user.profile.profile_picture
 
-        if(completeFileName != null) {
+        if(completeFileName != '') {
           let fileName  = completeFileName.split('.').shift()
           let fileExt = completeFileName.split('.').pop()
 

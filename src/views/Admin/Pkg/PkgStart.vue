@@ -148,7 +148,7 @@ export default {
           }
         }
 
-        const response = await axios.get(this.api_url + '/admin/survey/data-guru/', config)
+        const response = await axios.get(this.api_url + '/admin/survey/data-guru', config)
 
         this.dataGuru = response.data.data
 
