@@ -267,7 +267,7 @@ export default {
             formData.append('masukan', this.dataPkg.masukan)
             
 
-            await axios.post(`${this.api_url}/admin/survey/store/`, formData, config)
+            await axios.post(`${this.api_url}/admin/survey/store`, formData, config)
 
             this.setClear()
 
