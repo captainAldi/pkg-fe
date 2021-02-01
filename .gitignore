@@ -6,8 +6,7 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-.env.development
-.env.production
+
 
 # Log files
 npm-debug.log*
@@ -23,3 +22,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# other
+dist-*.zip
