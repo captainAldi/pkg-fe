@@ -266,7 +266,7 @@ export default {
       }
     },
 
-    getCurrentPP() {
+    async getCurrentPP() {
 
       let completeFileName = this.form.profile_picture
 
