@@ -144,7 +144,7 @@
       :color="$vuetify.theme.dark ? 'grey-darken4' : 'primary'"
       app
     >
-      <span class="white--text">Infra Team</span>
+      <span class="white--text">El Mundo - Jambi</span>
       
       <v-spacer></v-spacer>
 

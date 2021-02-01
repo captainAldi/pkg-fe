@@ -35,11 +35,11 @@
                 </center>
               </section>
 
-              <v-list-item-title class="title mt-2 mb-2">
+              <v-list-item-title class="title mt-2 mb-4">
                 {{user.profile.name}}
               </v-list-item-title>
 
-              <v-list-item-subtitle>
+              <v-list-item-subtitle class="title mt-2">
                 {{user.profile.email}}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -174,7 +174,7 @@
       :color="$vuetify.theme.dark ? 'grey-darken4' : 'primary'"
       app
     >
-      <span class="white--text">Infra Team</span>
+      <span class="white--text">El Mundo - Jambi</span>
       
       <v-spacer></v-spacer>
 
