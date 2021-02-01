@@ -274,9 +274,13 @@ export default {
 
       let newUrlPP = `${this.api_url}/files/profile-picture/${fileName}/${fileExt}`
 
-      this.currentPhotoProfile = newUrlPP
+      let testGCS = await axios.get(newUrlPP)
 
-       
+      if(testGCS.data.includes('https://storage.googleapis.com/pkg-biasa.appspot.com/')) {
+        this.currentPhotoProfile = `https://storage.googleapis.com/pkg-biasa.appspot.com/data-aplikasi/profile-picture/${completeFileName}`
+      } else {
+        this.currentPhotoProfile = newUrlPP
+      }      
     },
 
     async submit(e) {
