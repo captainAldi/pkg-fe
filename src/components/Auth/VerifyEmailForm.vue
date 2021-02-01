@@ -134,7 +134,7 @@ export default {
             this.setAlert({
               status : true,
               color  : 'error',
-              text  : 'Ada Masalah di Server !',
+              text  : errors,
             })
 
             this.alertObject.status = true
