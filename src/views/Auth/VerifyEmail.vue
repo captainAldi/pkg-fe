@@ -10,12 +10,12 @@
         md="8"
         align-self="center"
       >
-        <v-img
-          lazy-src="https://picsum.photos/id/11/10/6"
+         <v-img
+          :lazy-src="require('@/assets/aplikasi/logo.png')"
+          :src="require('@/assets/aplikasi/logo.png')"
+          max-width="150"
           max-height="150"
-          max-width="250"
           class="mt-5 mx-auto"
-          src="https://picsum.photos/id/11/500/300"
         ></v-img>
       </v-col>
     </v-row>
