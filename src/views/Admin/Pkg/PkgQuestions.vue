@@ -474,6 +474,8 @@ export default {
 
           await this.setIndikator(this.jawabanParsial)
 
+          await this.getDataNilaiKompetensi()
+
           this.setDialog({
             status : false,
           })
