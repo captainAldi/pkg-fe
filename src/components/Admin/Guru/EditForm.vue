@@ -269,18 +269,23 @@ export default {
     getCurrentPP() {
 
       let completeFileName = this.form.profile_picture
-      let fileName  = completeFileName.split('.').shift()
-      let fileExt = completeFileName.split('.').pop()
 
-      let newUrlPP = `${this.api_url}/files/profile-picture/${fileName}/${fileExt}`
+      if (completeFileName != '') {
+        let fileName  = completeFileName.split('.').shift()
+        let fileExt = completeFileName.split('.').pop()
 
-      let testGCS = await axios.get(newUrlPP)
+        let newUrlPP = `${this.api_url}/files/profile-picture/${fileName}/${fileExt}`
 
-      if(testGCS.data.includes('https://storage.googleapis.com/pkg-biasa.appspot.com/')) {
-        this.currentPhotoProfile = `https://storage.googleapis.com/pkg-biasa.appspot.com/data-aplikasi/profile-picture/${completeFileName}`
+        let testGCS = await axios.get(newUrlPP)
+
+        if(testGCS.data.includes('https://storage.googleapis.com/pkg-biasa.appspot.com/')) {
+          this.currentPhotoProfile = `https://storage.googleapis.com/pkg-biasa.appspot.com/data-aplikasi/profile-picture/${completeFileName}`
+        } else {
+          this.currentPhotoProfile = newUrlPP
+        }  
       } else {
-        this.currentPhotoProfile = newUrlPP
-      }      
+          this.currentPhotoProfile = ''
+      }    
     },
 
     async submit(e) {
