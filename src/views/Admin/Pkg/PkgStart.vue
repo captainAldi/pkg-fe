@@ -148,7 +148,7 @@ export default {
           }
         }
 
-        const response = await axios.get(this.api_url + '/admin/survey/data-guru/', config)
+        const response = await axios.get(this.api_url + '/admin/survey/data-guru', config)
 
         this.dataGuru = response.data.data
 
@@ -196,7 +196,7 @@ export default {
           formData.append('id_guru', this.idGuru)
           formData.append('tanggal', this.dateChoose)
 
-          await axios.post(this.api_url + '/admin/survey/create/', formData, config)
+          await axios.post(this.api_url + '/admin/survey/create', formData, config)
 
           this.setDataGuru(this.idGuru)
           this.setTanggal(this.dateChoose)

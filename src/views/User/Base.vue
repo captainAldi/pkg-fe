@@ -144,7 +144,7 @@
       :color="$vuetify.theme.dark ? 'grey-darken4' : 'primary'"
       app
     >
-      <span class="white--text">Infra Team</span>
+      <span class="white--text">El Mundo</span>
       
       <v-spacer></v-spacer>
 
@@ -214,7 +214,7 @@ export default {
       if (this.guest === false) {
         let completeFileName = this.user.profile.profile_picture
 
-        if(completeFileName != null) {
+        if(completeFileName != '') {
           let fileName  = completeFileName.split('.').shift()
           let fileExt = completeFileName.split('.').pop()
 
