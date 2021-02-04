@@ -35,11 +35,11 @@
                 </center>
               </section>
 
-              <v-list-item-title class="title mt-2 mb-2">
+              <v-list-item-title class="title mt-2">
                 {{user.profile.name}}
               </v-list-item-title>
 
-              <v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-2 mb-2">
                 {{user.profile.email}}
               </v-list-item-subtitle>
             </v-list-item-content>

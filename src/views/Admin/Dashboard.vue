@@ -15,18 +15,18 @@
           class="mx-auto mt-5 "
           max-width="80%"
         >
-          <v-card-title class="justify-center">Dashboard</v-card-title>
+          <v-card-title class="justify-center">Dashboard Admin</v-card-title>
 
           <v-divider></v-divider>
           
           <center>
-            <v-progress-circular
-              :size="70"
-              :width="7"
-              color="primary"
-              class="mt-5"
-              indeterminate
-            ></v-progress-circular>
+            <v-img
+              :lazy-src="require('@/assets/aplikasi/logo.png')"
+              :src="require('@/assets/aplikasi/logo.png')"
+              max-width="150"
+              max-height="150"
+              class="mt-5 mx-auto"
+            ></v-img>
           </center>
 
           <v-card-text>
@@ -44,8 +44,21 @@
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex'
 
+export default {
+  data() {
+    return {
+
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+      guest: 'auth/guest',
+    }),
+  },
 }
 </script>
 
