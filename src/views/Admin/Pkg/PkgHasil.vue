@@ -51,7 +51,7 @@ export default {
         {
           text: 'Nama',
           align: 'start',
-          value: 'user',
+          value: 'name',
         },
         { text: 'Nilai', value: 'nilai_akhir' },
         { text: 'Keterangan', value: 'keterangan' },
