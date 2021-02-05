@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <h1>Data Guru Admin</h1>
+      <h1>Data Guru</h1>
 
       <v-card>
         <v-card-title>
@@ -17,13 +17,23 @@
         </v-card-title>
 
         <v-btn
+          dark
           small
-          class="mx-2"
-          icon
+          class="ma-2"
           color="success" 
           to="/admin/data-guru/create"
         >
-            <v-icon dark>mdi-plus-box-multiple-outline</v-icon>
+          <v-icon dark>mdi-plus-box-multiple-outline</v-icon>
+        </v-btn>
+
+        <v-btn
+          dark
+          small
+          color="red lighten-1" 
+          @click="exportPDF"
+          class="ma-2"
+        >
+          <v-icon dark>mdi-file-pdf-outline</v-icon>
         </v-btn>
 
         <v-data-table
@@ -180,6 +190,51 @@ export default {
         }
       } 
 
+    },
+
+    async exportPDF() {
+      try {
+        
+        this.setDialog({
+          status : true,
+        })
+        
+        let config = {
+          headers: {
+            'Authorization': this.user.api_token,
+          },
+          responseType: 'blob',
+        }
+
+        const response = await axios.get(`${this.api_url}/admin/data/guru/cetak`, config)
+
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Get Date Time
+        let dateTimeNow = new Date()
+
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', `data-guru-${dateTimeNow.getDate()}${dateTimeNow.getMonth()}${dateTimeNow.getFullYear()}-${dateTimeNow.getHours()}${dateTimeNow.getMinutes()}.pdf`); //any other name + extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();  
+
+        this.setDialog({
+          status : false,
+        })
+
+      } catch (error) {
+        this.setDialog({
+          status : false,
+        })
+        
+        this.setAlert({
+          status : true,
+          color  : 'error',
+          text  : error,
+        })
+      }
     }
   }
 }

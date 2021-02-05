@@ -10,7 +10,11 @@
         md="8"
         align-self="center"
       >
+<<<<<<< HEAD
          <v-img
+=======
+        <v-img
+>>>>>>> edc3fedc0538315d8aba57a01103889da78b0909
           :lazy-src="require('@/assets/aplikasi/logo.png')"
           :src="require('@/assets/aplikasi/logo.png')"
           max-width="150"
@@ -43,7 +47,7 @@
             <ResetPasswordForm/>
           </v-card-text>
           <v-card-subtitle>            
-            Enter Your E-Mail
+            Enter Your New Password
           </v-card-subtitle>
         </v-card>
       </v-col>

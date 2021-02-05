@@ -35,11 +35,11 @@
                 </center>
               </section>
 
-              <v-list-item-title class="title mt-2 mb-2">
+              <v-list-item-title class="title mt-2">
                 {{user.profile.name}}
               </v-list-item-title>
 
-              <v-list-item-subtitle>
+              <v-list-item-subtitle class="mb-2 mt-2">
                 {{user.profile.email}}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -144,7 +144,11 @@
       :color="$vuetify.theme.dark ? 'grey-darken4' : 'primary'"
       app
     >
+<<<<<<< HEAD
       <span class="white--text">El Mundo - Jambi</span>
+=======
+      <span class="white--text">El Mundo</span>
+>>>>>>> edc3fedc0538315d8aba57a01103889da78b0909
       
       <v-spacer></v-spacer>
 
