@@ -35,19 +35,11 @@
                 </center>
               </section>
 
-<<<<<<< HEAD
-              <v-list-item-title class="title mt-2 mb-4">
-                {{user.profile.name}}
-              </v-list-item-title>
-
-              <v-list-item-subtitle class="title mt-2">
-=======
               <v-list-item-title class="title mt-2">
                 {{user.profile.name}}
               </v-list-item-title>
 
               <v-list-item-subtitle class="mt-2 mb-2">
->>>>>>> edc3fedc0538315d8aba57a01103889da78b0909
                 {{user.profile.email}}
               </v-list-item-subtitle>
             </v-list-item-content>

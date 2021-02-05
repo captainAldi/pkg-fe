@@ -144,11 +144,7 @@
       :color="$vuetify.theme.dark ? 'grey-darken4' : 'primary'"
       app
     >
-<<<<<<< HEAD
-      <span class="white--text">El Mundo - Jambi</span>
-=======
       <span class="white--text">El Mundo</span>
->>>>>>> edc3fedc0538315d8aba57a01103889da78b0909
       
       <v-spacer></v-spacer>
 
