@@ -1,90 +1,92 @@
 <template>
   <div v-if="dataGuru.length != 0">
-    <v-row>
-      <v-col>
-        <h1>Mulai PKG</h1>
-      </v-col>
-    </v-row>
+   <v-container fluid>
+      <v-row>
+        <v-col>
+          <h1>Mulai PKG</h1>
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col>
-        <v-card
-          elevation="4"
-          class="mx-auto mt-5 "
-          max-width="80%"
-        >
-          <v-card-title class="justify-center">Pilih Guru dan Waktu</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-form
-              ref="formStartPkg"
-              v-model="validStartPkg"
-              lazy-validation
-            >
-              <v-autocomplete
-                v-model="idGuru"
-                :items="dataGuru"
-                :rules="formRules.namaGuruRules"
-                item-text="name"
-                item-value="id"
-                dense
-                filled
-                label="Guru"
-              ></v-autocomplete>
-
-              {{dateChoose}}
-
-              <v-menu
-                ref="menuDateChoose"
-                v-model="menuDateChoose"
-                :close-on-content-click="false"
-                :return-value.sync="dateChoose"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
+      <v-row>
+        <v-col>
+          <v-card
+            elevation="4"
+            class="mx-auto mt-5 "
+            max-width="80%"
+          >
+            <v-card-title class="justify-center">Pilih Guru dan Waktu</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text>
+              <v-form
+                ref="formStartPkg"
+                v-model="validStartPkg"
+                lazy-validation
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="dateChoose"
-                    label="Until"
-                    prepend-icon="mdi-calendar-month"
-                    readonly
-                    clearable
-                    v-bind="attrs"
-                    v-on="on"
-                    :rules="formRules.tanggalPkgRules"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="dateChoose" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menuDateChoose = false">Cancel</v-btn>
-                  <v-btn text color="primary" @click="$refs.menuDateChoose.save(dateChoose)">OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-form>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn
-              :disabled="!validStartPkg"
-              color="success"
-              class="mr-4"
-              @click="startPkg"
-            >
-              Mulai
-            </v-btn>
+                <v-autocomplete
+                  v-model="idGuru"
+                  :items="dataGuru"
+                  :rules="formRules.namaGuruRules"
+                  item-text="name"
+                  item-value="id"
+                  dense
+                  filled
+                  label="Guru"
+                ></v-autocomplete>
 
-            <v-btn
-              color="error"
-              class="mr-4"
-              @click="reset"
-            >
-              Reset
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+                {{dateChoose}}
+
+                <v-menu
+                  ref="menuDateChoose"
+                  v-model="menuDateChoose"
+                  :close-on-content-click="false"
+                  :return-value.sync="dateChoose"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateChoose"
+                      label="Until"
+                      prepend-icon="mdi-calendar-month"
+                      readonly
+                      clearable
+                      v-bind="attrs"
+                      v-on="on"
+                      :rules="formRules.tanggalPkgRules"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="dateChoose" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menuDateChoose = false">Cancel</v-btn>
+                    <v-btn text color="primary" @click="$refs.menuDateChoose.save(dateChoose)">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-form>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                :disabled="!validStartPkg"
+                color="success"
+                class="mr-4"
+                @click="startPkg"
+              >
+                Mulai
+              </v-btn>
+
+              <v-btn
+                color="error"
+                class="mr-4"
+                @click="reset"
+              >
+                Reset
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+   </v-container>
   </div>
 </template>
 

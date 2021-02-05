@@ -135,6 +135,48 @@
         :sort-desc.sync="sortDesc"
       >
 
+        <!-- Untuk Judul / Bagian Atas -->
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>PKG</v-toolbar-title>
+            <v-divider
+              class="mx-4"
+              inset
+              vertical
+            ></v-divider>
+
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="primary"
+              dark
+              @click="$emit('refresh')"
+              small
+              class="ma-2"
+            >
+              <v-icon>
+                mdi-reload
+              </v-icon>
+            </v-btn>
+
+            <v-divider
+              class="mx-4"
+              inset
+              vertical
+            ></v-divider>
+
+            <v-btn
+              dark
+              small
+              color="red lighten-1" 
+              @click="exportPDF"
+              class="ma-2"
+            >
+              <v-icon dark>mdi-file-pdf-outline</v-icon>
+            </v-btn>
+          </v-toolbar>
+        </template>
+
 
 
         <!-- Untuk Kolom User -->
@@ -197,6 +239,7 @@
         :length="meta.last_page"
         :total-visible="6"
         @input="loadPerPage"
+        class="mt-3"
       ></v-pagination>
 
     </v-container>
@@ -206,6 +249,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import _ from 'lodash'
+import axios from 'axios'
 
 export default {
   name: 'dataPkg',
@@ -223,7 +267,7 @@ export default {
     },
     dataTableLoading: {
         required: true
-    }
+    },
   },
   data() {
     return {
@@ -327,7 +371,50 @@ export default {
       this.$emit('searchDateTo', e)
     }, 500),
 
+    async exportPDF() {
+      try {
+        
+        this.setDialog({
+          status : true,
+        })
+        
+        let config = {
+          headers: {
+            'Authorization': this.user.api_token,
+          },
+          responseType: 'blob',
+        }
 
+        const response = await axios.get(`${this.api_url}/admin/cetak/pkg`, config)
+
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Get Date Time
+        let dateTimeNow = new Date()
+
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', `hasil-pkg-${dateTimeNow.getDate()}${dateTimeNow.getMonth()}${dateTimeNow.getFullYear()}-${dateTimeNow.getHours()}${dateTimeNow.getMinutes()}.pdf`); //any other name + extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();  
+
+        this.setDialog({
+          status : false,
+        })
+
+      } catch (error) {
+        this.setDialog({
+          status : false,
+        })
+        
+        this.setAlert({
+          status : true,
+          color  : 'error',
+          text  : error,
+        })
+      }
+    }
 
   }
 }

@@ -5,7 +5,7 @@
         <v-col
           cols="12"
         >
-          <h1>Hasil PKG Admin</h1>
+          <h1>Hasil PKG</h1>
         </v-col>
       </v-row>
 
