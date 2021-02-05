@@ -238,7 +238,7 @@
         v-model="meta.current_page"
         :length="meta.last_page"
         :total-visible="6"
-        @input="loadPerPage"
+        @input="changePage"
         class="mt-3"
       ></v-pagination>
 
