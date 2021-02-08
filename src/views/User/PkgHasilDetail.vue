@@ -409,7 +409,7 @@ export default {
 
         const response = await axios.get(`${this.api_url}/user/cetak/hasil-survey/${this.idProfile}`, config)
 
-        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
 
         // Get Date Time
         let dateTimeNow = new Date()

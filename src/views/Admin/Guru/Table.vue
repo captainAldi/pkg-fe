@@ -208,7 +208,7 @@ export default {
 
         const response = await axios.get(`${this.api_url}/admin/data/guru/cetak`, config)
 
-        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
 
         // Get Date Time
         let dateTimeNow = new Date()
