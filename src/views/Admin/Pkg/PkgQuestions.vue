@@ -8,10 +8,6 @@
           </v-col>
         </v-row>
 
-        {{dataPkg}}
-
-        {{idKompetensi}}
-
         <v-row>
           <v-col
             cols="12"

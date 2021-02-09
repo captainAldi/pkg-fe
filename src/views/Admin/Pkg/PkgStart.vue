@@ -33,8 +33,6 @@
                   label="Guru"
                 ></v-autocomplete>
 
-                {{dateChoose}}
-
                 <v-menu
                   ref="menuDateChoose"
                   v-model="menuDateChoose"
