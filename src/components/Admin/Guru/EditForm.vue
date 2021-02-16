@@ -19,55 +19,105 @@
       v-model="validEditGuruForm"
       lazy-validation
     >
-      <v-text-field
-        v-model="form.name"
-        label="Nama ..."
-        :rules="formRules.nameRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
 
-      <v-text-field
-        v-model="form.email"
-        label="E-Mail ..."
-        :rules="formRules.emailRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.name"
+            label="Nama ..."
+            :rules="formRules.nameRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
 
-      <span>Jika Tidak Ingin di Ubah Biarkan Kosong</span>
-      <v-text-field
-        label="Password ..."
-        v-model="password"
-        :rules="passwordRules"
-        :append-icon="showPassTextInput ? 'mdi-eye' : 'mdi-eye-off'"
-        :type="showPassTextInput ? 'text' : 'password'"
-        @click:append="showPassTextInput = !showPassTextInput"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.email"
+            label="E-Mail ..."
+            :rules="formRules.emailRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
 
-      <v-text-field
-        v-model="form.nip"
-        label="NIP ..."
-        :rules="formRules.nipRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            label="Password ..."
+            v-model="password"
+            :rules="passwordRules"
+            :append-icon="showPassTextInput ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassTextInput ? 'text' : 'password'"
+            @click:append="showPassTextInput = !showPassTextInput"
+            filled
+            required
+          ></v-text-field>
+          <div
+            class="text-caption mt-n7"
+          >
+            Jika Tidak Ingin di Ubah Biarkan Kosong
+          </div>
+        </v-col>
+      </v-row>
 
-      <v-text-field
-        v-model="form.jam_mengajar"
-        label="Jam Mengajar ..."
-        :rules="formRules.jamMengajarRules"
-        filled
-        type="number"
-        required
-        class="mb-2"
-      ></v-text-field>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.nip"
+            label="NIP ..."
+            :rules="formRules.nipRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.jam_mengajar"
+            label="Jam Mengajar ..."
+            :rules="formRules.jamMengajarRules"
+            filled
+            type="number"
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-file-input
+            chips
+            label="Profile Picture"
+            @change="logFile"
+            filled
+            class="mb-2"
+            :rules="profilePictureRules"
+            show-size
+            accept=".png,.jpg,.jpeg"
+          >
+          </v-file-input>
+        </v-col>
+      </v-row>
 
       <section
         v-if="currentPhotoProfile != ''"
@@ -99,18 +149,6 @@
         ></v-img>
 
       </section>
-
-      <v-file-input
-        chips
-        label="Profile Picture"
-        @change="logFile"
-        filled
-        class="mb-2"
-        :rules="profilePictureRules"
-        show-size
-        accept=".png,.jpg,.jpeg"
-      >
-      </v-file-input>
       
 
       <v-btn

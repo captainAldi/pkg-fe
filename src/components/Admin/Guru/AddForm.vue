@@ -19,71 +19,107 @@
       v-model="validAddGuruForm"
       lazy-validation
     >
-      <v-text-field
-        v-model="form.name"
-        label="Nama ..."
-        :rules="formRules.nameRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.name"
+            label="Nama ..."
+            :rules="formRules.nameRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
 
-      <v-text-field
-        v-model="form.email"
-        label="E-Mail ..."
-        :rules="formRules.emailRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.email"
+            label="E-Mail ..."
+            :rules="formRules.emailRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
 
-      <v-text-field
-        label="Password ..."
-        v-model="form.password"
-        :rules="formRules.passwordRules"
-        :append-icon="showPassTextInput ? 'mdi-eye' : 'mdi-eye-off'"
-        :type="showPassTextInput ? 'text' : 'password'"
-        @click:append="showPassTextInput = !showPassTextInput"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            label="Password ..."
+            v-model="form.password"
+            :rules="formRules.passwordRules"
+            :append-icon="showPassTextInput ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassTextInput ? 'text' : 'password'"
+            @click:append="showPassTextInput = !showPassTextInput"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
+      </v-row>
 
-      <v-text-field
-        v-model="form.nip"
-        label="NIP ..."
-        :rules="formRules.nipRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.nip"
+            label="NIP ..."
+            :rules="formRules.nipRules"
+            filled
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
 
-      <v-text-field
-        v-model="form.jam_mengajar"
-        label="Jam Mengajar ..."
-        :rules="formRules.jamMengajarRules"
-        filled
-        type="number"
-        required
-        class="mb-2"
-      ></v-text-field>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-text-field
+            v-model="form.jam_mengajar"
+            label="Jam Mengajar ..."
+            :rules="formRules.jamMengajarRules"
+            filled
+            type="number"
+            required
+            class="mb-2"
+          ></v-text-field>
+        </v-col>
+      </v-row>
 
-      <v-btn
-        :disabled="!validAddGuruForm"
-        color="success"
-        class="mr-4"
-        @click="submit"
-      >
-        Add
-      </v-btn>
+      <v-row>
+        <v-col
+          cols="12"
+          md="4"
+        >
+          <v-btn
+            :disabled="!validAddGuruForm"
+            color="success"
+            class="mr-4"
+            @click="submit"
+          >
+            Add
+          </v-btn>
 
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
-      >
-        Reset
-      </v-btn>
+          <v-btn
+            color="error"
+            class="mr-4"
+            @click="reset"
+          >
+            Reset
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-form>
   </div>
 </template>
