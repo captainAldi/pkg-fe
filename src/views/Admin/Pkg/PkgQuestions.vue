@@ -26,7 +26,6 @@
                   v-model="validQuestionPkg"
                   lazy-validation
                 >
-                {{jawabanParsial}}
                   <ol>
                     <section
                       v-for="(item, index) in pertanyaan"
