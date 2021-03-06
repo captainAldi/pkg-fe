@@ -7,11 +7,6 @@
             <h1>Pertanyaan PKG</h1>
           </v-col>
         </v-row>
-
-        {{dataPkg}}
-
-        {{idKompetensi}}
-
         <v-row>
           <v-col
             cols="12"
@@ -30,7 +25,6 @@
                   v-model="validQuestionPkg"
                   lazy-validation
                 >
-                {{jawabanParsial}}
                   <ol>
                     <section
                       v-for="(item, index) in pertanyaan"
