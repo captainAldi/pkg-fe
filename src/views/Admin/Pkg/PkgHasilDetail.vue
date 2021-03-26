@@ -55,6 +55,12 @@
               <strong>Email : </strong>{{ pkgDetail.dataUser.email }}
               <br>
               <strong>NIP : </strong>{{ pkgDetail.dataUser.nip }}
+              <br>
+              <strong>No HP : </strong>{{ pkgDetail.dataUser.no_hp }}
+              <br>
+              <strong>Mata Pelajaran : </strong>{{ pkgDetail.dataUser.mata_pelajaran }}
+              <br>
+              <strong>Kelas : </strong>{{ pkgDetail.dataUser.kelas }}
             </v-card-subtitle>
           </v-card>
         </v-col>
@@ -184,15 +190,25 @@
             <v-card-title>
               Tabulasi Data
               <v-spacer></v-spacer>
-              <v-btn
-                dark
-                small
-                color="red lighten-1" 
-                @click="exportPDF"
-              >
-                <v-icon dark>mdi-file-pdf-outline</v-icon>
-              </v-btn>
+
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
             </v-card-title>
+
+            <v-btn
+              dark
+              small
+              class="ma-2"
+              color="red lighten-1" 
+              @click="exportPDF"
+            >
+              <v-icon dark>mdi-file-pdf-outline</v-icon>
+            </v-btn>
 
             <v-spacer></v-spacer>
 
@@ -208,6 +224,7 @@
                     <td>{{row.index + 1}}</td>
                     <td>{{row.item.user.name}}</td>
                     <td>{{row.item.nilai_akhir}}</td>
+                    <td>{{ row.item.pengguna.name }}</td>
                     <td>{{row.item.keterangan}}</td>
                     <td>{{row.item.tanggal}}</td>
                     <td>{{row.item.masukan}}</td>
@@ -217,6 +234,7 @@
                         class="mx-2"
                         icon
                         color="pink" 
+                        :disabled="row.item.pengguna.role != 'admin'"
                         @click="showDetail(row.item)"
                       >
                           <v-icon dark>mdi-file-document-multiple-outline</v-icon>
@@ -242,7 +260,7 @@
             ripple
           >
             <v-card-title>
-              Chart Tahunan
+              Chart Tahunan Oleh Kepala Sekolah
             </v-card-title>
 
             <v-card-subtitle>
@@ -284,6 +302,7 @@ export default {
           value: 'user',
         },
         { text: 'Nilai', value: 'nilai_akhir' },
+        { text: 'Penilai', value: 'pengguna.name', sortable: false },
         { text: 'Keterangan', value: 'keterangan' },
         { text: 'Tanggal', value: 'tanggal' },
         { text: 'Masukan', value: 'masukan' },

@@ -50,7 +50,7 @@
 
         <v-list-item 
           link
-          :to="`/user/home`"
+          :to="`/${userRole}/home`"
         >
 
           <v-list-item-action>
@@ -65,7 +65,7 @@
 
         <v-list-item 
           link
-          :to="`/user/profile/${this.user.profile.id}`"
+          :to="`/${userRole}/profile/${this.user.profile.id}`"
         >
 
           <v-list-item-action>
@@ -80,18 +80,37 @@
 
         <v-list-item 
           link
-          :to="`/user/hasil-pkg/${this.user.profile.id}`"
+          :to="`/${userRole}/pkg/create`"
         >
 
           <v-list-item-action>
-            <v-icon>mdi-file-document-multiple-outline</v-icon>
+            <v-icon>mdi-account-circle-outline</v-icon>
           </v-list-item-action>
 
           <v-list-item-content>
-            <v-list-item-title>Hasil PKG</v-list-item-title>
+            <v-list-item-title>Mulai PKG</v-list-item-title>
           </v-list-item-content>
 
         </v-list-item>
+
+        
+
+        <section v-if="user.profile.role == 'guru'">
+          <v-list-item 
+            link
+            :to="`/guru/hasil-pkg/${this.user.profile.id}`"
+          >
+
+            <v-list-item-action>
+              <v-icon>mdi-file-document-multiple-outline</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>Hasil PKG</v-list-item-title>
+            </v-list-item-content>
+
+          </v-list-item>
+        </section>
 
         <section v-if="guest === false">
           <v-divider></v-divider>
@@ -187,6 +206,21 @@ export default {
       guest: 'auth/guest',
     }),
 
+    userRole() {
+      let checkRole
+
+      if(this.user.profile.role == 'guru') {
+        checkRole = 'guru'
+      } else if(this.user.profile.role == 'siswa') {
+        checkRole = 'siswa'
+      } else {
+        checkRole = 'orang-tua'
+      }
+
+      return checkRole
+
+    },
+
     goDark: {
       get() {
         const theme = JSON.parse(localStorage.getItem(this.app_theme_key))
@@ -214,7 +248,7 @@ export default {
       if (this.guest === false) {
         let completeFileName = this.user.profile.profile_picture
 
-        if(completeFileName != '') {
+        if(completeFileName !== null) {
           let fileName  = completeFileName.split('.').shift()
           let fileExt = completeFileName.split('.').pop()
 

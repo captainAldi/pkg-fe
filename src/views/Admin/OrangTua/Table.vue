@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-container fluid>
-      <h1>Data Guru</h1>
+      <h1>Data Orang Tua</h1>
 
       <v-card>
         <v-card-title>
-          Data Guru
+          Data Orang Tua
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -21,7 +21,7 @@
           small
           class="ma-2"
           color="success" 
-          to="/admin/data-guru/create"
+          to="/admin/data-orang-tua/create"
         >
           <v-icon dark>mdi-plus-box-multiple-outline</v-icon>
         </v-btn>
@@ -38,7 +38,7 @@
 
         <v-data-table
           :headers="headers"
-          :items="dataGuru"
+          :items="dataOrangTua"
           :search="search"
           :loading="tableLoading"
           mobile-breakpoint="0"
@@ -48,21 +48,16 @@
                 <td>{{row.index + 1}}</td>
                 <td>{{row.item.name}}</td>
                 <td>{{row.item.email}}</td>
-                <td>{{row.item.nip}}</td>
                 <td>{{row.item.no_hp}}</td>
-                <td>
+                <td v-if="row.item.children">
                   <ul>
-                    <li v-for="(item, index) in row.item.mata_pelajaran" :key="index">
-                      {{item}}
+                    <li v-for="(item, index) in row.item.children" :key="index">
+                      {{item.name}}
                     </li>
                   </ul>
                 </td>
-                <td>
-                  <ul>
-                    <li v-for="(item, index) in row.item.kelas" :key="index">
-                      {{item}}
-                    </li>
-                  </ul>
+                <td v-else>
+                  Belum di Input
                 </td>
                 <td>
                     <v-btn
@@ -100,7 +95,7 @@ import axios from 'axios'
 import 'vue-sweetalert2';
 
 export default {
-  name: 'DataGuru',
+  name: 'DataOrangTua',
   data() {
     return {
       api_url: process.env.VUE_APP_API_ENDPOINT,
@@ -110,17 +105,15 @@ export default {
         { text: 'No', value: 'no', sortable: false },
         { text: 'Nama', value: 'name' },
         { text: 'E-Mail', value: 'email' },
-        { text: 'NIP', value: 'nip' },
         { text: 'No HP', value: 'no_hp' },
-        { text: 'Mata Pelajaran', value: 'mata_pelajaran' },
-        { text: 'Kelas', value: 'kelas' },
+        { text: 'Anak', value: 'children.name' },
         { text: 'Actions', value: 'controls', sortable: false },
       ],
-      dataGuru: []
+      dataOrangTua: []
     }
   },
   mounted() {
-    this.getAllGurus()
+    this.getAllOrangTuas()
   },
   computed: {
     ...mapGetters({
@@ -135,7 +128,7 @@ export default {
       setDialog : 'dialog/set'
     }),
     
-    async getAllGurus() {
+    async getAllOrangTuas() {
       try {
 
         this.tableLoading = true
@@ -146,29 +139,9 @@ export default {
           }
         }
 
-        let response = await axios.get(this.api_url + '/admin/data/guru/semua', config)
+        let response = await axios.get(this.api_url + '/admin/data/orang-tua/semua', config)
 
-        this.dataGuru = response.data.data
-
-        // Mapping String to Array
-
-        let dataGuruBaru = this.dataGuru.map(element => ({
-          id: element.id,
-          name: element.name,
-          email: element.email,
-          role: element.role,
-          nip: element.nip,
-          profile_picture: element.profile_picture,
-          jam_mengajar: element.jam_mengajar,
-          email_verified_at: element.email_verified_at,
-          kelas: element.kelas != null ? element.kelas.split(', ') : element.kelas,
-          no_hp: element.no_hp,
-          mata_pelajaran: element.mata_pelajaran != null ? element.mata_pelajaran.split(', ') : element.mata_pelajaran,
-          created_at: element.created_at,
-          updated_at: element.updated_at
-        }))
-
-        this.dataGuru = dataGuruBaru
+        this.dataOrangTua = response.data.data
 
         this.tableLoading = false
       } catch (error) {
@@ -177,7 +150,7 @@ export default {
     },
 
     editData(e) {
-      this.$router.push('data-guru/edit/' + e.id)
+      this.$router.push('data-orang-tua/edit/' + e.id)
     },
 
     async deleteData(e) {
@@ -204,13 +177,13 @@ export default {
             }
           }
 
-          const response = await axios.delete(this.api_url + '/admin/data/guru/' + e.id, config)
+          const response = await axios.delete(this.api_url + '/admin/data/orang-tua/' + e.id, config)
 
           this.setDialog({
             status : false,
           })
 
-          this.getAllGurus()
+          this.getAllOrangTuas()
 
           this.setAlert({
             status : true,
@@ -244,7 +217,7 @@ export default {
           responseType: 'blob',
         }
 
-        const response = await axios.get(`${this.api_url}/admin/data/guru/cetak`, config)
+        const response = await axios.get(`${this.api_url}/admin/data/orang-tua/cetak`, config)
 
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
 
@@ -253,7 +226,7 @@ export default {
 
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute('download', `data-guru-${dateTimeNow.getDate()}${dateTimeNow.getMonth()}${dateTimeNow.getFullYear()}-${dateTimeNow.getHours()}${dateTimeNow.getMinutes()}.pdf`); //any other name + extension
+        link.setAttribute('download', `data-orang-tua-${dateTimeNow.getDate()}${dateTimeNow.getMonth()}${dateTimeNow.getFullYear()}-${dateTimeNow.getHours()}${dateTimeNow.getMinutes()}.pdf`); //any other name + extension
         document.body.appendChild(link);
         link.click();
         link.remove();  

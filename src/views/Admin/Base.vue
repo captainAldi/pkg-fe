@@ -95,6 +95,36 @@
 
         <v-list-item 
           link
+          :to="`/admin/data-siswa`"
+        >
+
+          <v-list-item-action>
+            <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>Data Siswa</v-list-item-title>
+          </v-list-item-content>
+
+        </v-list-item>
+
+         <v-list-item 
+          link
+          :to="`/admin/data-orang-tua`"
+        >
+
+          <v-list-item-action>
+            <v-icon>mdi-account-supervisor-circle-outline</v-icon>
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>Data Orang Tua</v-list-item-title>
+          </v-list-item-content>
+
+        </v-list-item>
+
+        <v-list-item 
+          link
           :to="`/admin/pkg/create`"
         >
 
@@ -251,7 +281,7 @@ export default {
       if (this.guest === false) {
         let completeFileName = this.user.profile.profile_picture
 
-        if(completeFileName != '') {
+        if(completeFileName !== null) {
           let fileName  = completeFileName.split('.').shift()
           let fileExt = completeFileName.split('.').pop()
 

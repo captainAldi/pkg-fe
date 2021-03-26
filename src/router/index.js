@@ -89,6 +89,32 @@ const routes = [
         path: 'data-guru/edit/:id',
         component: () => import(/* webpackChunkName: "edit-data-guru" */ '../views/Admin/Guru/Edit.vue')
       },
+      // Data Siswa
+      {
+        path: 'data-siswa',
+        component: () => import(/* webpackChunkName: "data-siswa" */ '../views/Admin/Siswa/Table.vue')
+      },
+      {
+        path: 'data-siswa/create',
+        component: () => import(/* webpackChunkName: "create-data-siswa" */ '../views/Admin/Siswa/Add.vue')
+      },
+      {
+        path: 'data-siswa/edit/:id',
+        component: () => import(/* webpackChunkName: "edit-data-siswa" */ '../views/Admin/Siswa/Edit.vue')
+      },
+      // Data Orang Tua
+      {
+        path: 'data-orang-tua',
+        component: () => import(/* webpackChunkName: "data-orang-tua" */ '../views/Admin/OrangTua/Table.vue')
+      },
+      {
+        path: 'data-orang-tua/create',
+        component: () => import(/* webpackChunkName: "create-data-orang-tua" */ '../views/Admin/OrangTua/Add.vue')
+      },
+      {
+        path: 'data-orang-tua/edit/:id',
+        component: () => import(/* webpackChunkName: "edit-data-orang-tua" */ '../views/Admin/OrangTua/Edit.vue')
+      },
       // PKG
       {
         path: 'pkg/create',
@@ -118,11 +144,12 @@ const routes = [
   },
 
   {
-    path: '/user',
-    name: 'User',
+    path: '/guru',
+    name: 'Guru',
     component: UserBase,
     meta: {
-      auth: true
+      auth: true,
+      guru: true 
     },
     children: [
       {
@@ -133,6 +160,20 @@ const routes = [
         path: 'profile/:id',
         component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
       },
+      // PKG
+      {
+        path: 'pkg/create',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgStart.vue')
+      },
+      {
+        path: 'pkg/create/confirm',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgConfirm.vue')
+      },
+      {
+        path: 'pkg/create/:idQuestion',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgQuestionsTemanSejawat.vue')
+      },
+      // Hasil PKG
       {
         path: 'hasil-pkg/:idGuru',
         component: () => import(/* webpackChunkName: "hasil-pkg-detail" */ '../views/User/PkgHasilDetail.vue')
@@ -141,6 +182,74 @@ const routes = [
         path: 'hasil-pkg/:idGuru/:idFeedback',
         component: () => import(/* webpackChunkName: "hasil-pkg-detail-kompetensi" */ '../views/User/PkgHasilDetailKompetensi.vue')
       },
+    ]
+  },
+
+  {
+    path: '/siswa',
+    name: 'Siswa',
+    component: UserBase,
+    meta: {
+      auth: true,
+      siswa: true 
+    },
+    children: [
+      {
+        path: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/User/Dashboard.vue')
+      },
+      {
+        path: 'profile/:id',
+        component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+      },
+      // PKG
+      {
+        path: 'pkg/create',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgStart.vue')
+      },
+      {
+        path: 'pkg/create/confirm',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgConfirm.vue')
+      },
+      {
+        path: 'pkg/create/:idQuestion',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgQuestionsSiswa.vue')
+      },
+      
+    ]
+  },
+
+  {
+    path: '/orang-tua',
+    name: 'OrangTua',
+    component: UserBase,
+    meta: {
+      auth: true,
+      orangtua: true 
+    },
+    children: [
+      {
+        path: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/User/Dashboard.vue')
+      },
+      {
+        path: 'profile/:id',
+        component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+      },
+      // PKG
+      {
+        path: 'pkg/create',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgStart.vue')
+      },
+      {
+        path: 'pkg/create/confirm',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgConfirm.vue')
+      },
+      {
+        path: 'pkg/create/:idQuestion',
+        component: () => import(/* webpackChunkName: "pkg" */ '../views/User/PkgQuestionsOrangTua.vue')
+      },
+      
     ]
   },
 
@@ -158,6 +267,51 @@ const router = new VueRouter({
   routes
 })
 
+// router.beforeEach((to, from, next) => {
+//   // jika routing ada meta auth-nya maka
+//   if (to.matched.some(record => record.meta.auth)) {
+//     // jika user adalah guest
+//     if (store.getters['auth/guest']) {
+//       // tampilkan pesan bahwa harus login dulu
+//       store.dispatch('alert/set', {
+//         status: true,
+//         text: 'Login first',
+//         color: 'error',
+//       })
+//       // catat link sebelum nya
+//       store.dispatch('prevUrl/setPrevUrl', to.path)
+
+//       //redirect ke form login
+//       next('/auth/login')
+//     } 
+//     // Jika Routing ada meta admin-nya maka
+//     else if (to.matched.some(record => record.meta.admin)) {
+//       // jika user bukan admin
+//       if (store.getters['auth/user'].profile.role != 'admin') {
+//         // tampilkan pesan Unauthorized !
+//         store.dispatch('alert/set', {
+//           status: true,
+//           text: 'Bukan Admin!',
+//           color: 'error',
+//         })
+
+//         //redirect ke dashboard
+//         next('/')
+//       } else {
+//         next()
+//       }
+//     } 
+//     // Bukan auth dan admin lanjut
+//     else {
+//       next()
+//     }
+//   } 
+//   // Bukan Auth
+//   else {
+//     next()
+//   }
+// })
+
 router.beforeEach((to, from, next) => {
   // jika routing ada meta auth-nya maka
   if (to.matched.some(record => record.meta.auth)) {
@@ -174,11 +328,15 @@ router.beforeEach((to, from, next) => {
 
       //redirect ke form login
       next('/auth/login')
-    } 
+    }
     // Jika Routing ada meta admin-nya maka
     else if (to.matched.some(record => record.meta.admin)) {
       // jika user bukan admin
-      if (store.getters['auth/user'].profile.role != 'admin') {
+      if (store.getters['auth/user'].profile.role == 'admin') {
+
+        next()
+      } 
+      else {
         // tampilkan pesan Unauthorized !
         store.dispatch('alert/set', {
           status: true,
@@ -186,17 +344,71 @@ router.beforeEach((to, from, next) => {
           color: 'error',
         })
 
-        //redirect ke dashboard
         next('/')
-      } else {
+      }
+    }
+
+    // Jika Routing ada meta guru-nya maka
+    else if (to.matched.some(record => record.meta.guru)) {
+      // jika user bukan guru
+      if (store.getters['auth/user'].profile.role == 'guru') {
+       
         next()
       }
-    } 
-    // Bukan auth dan admin lanjut
+      else {
+        // tampilkan pesan Unauthorized !
+        store.dispatch('alert/set', {
+          status: true,
+          text: 'Wrong Path !',
+          color: 'error',
+        })
+
+        next('/')
+      }
+    }
+
+    // Jika Routing ada meta siswa-nya maka
+    else if (to.matched.some(record => record.meta.siswa)) {
+      // jika user bukan siswa
+      if (store.getters['auth/user'].profile.role == 'siswa') {
+
+        next()
+      }
+      else {
+        // tampilkan pesan Unauthorized !
+        store.dispatch('alert/set', {
+          status: true,
+          text: 'Wrong Path !',
+          color: 'error',
+        })
+
+        next('/')
+      }
+    }
+
+    // Jika Routing ada meta orangtua-nya maka
+    else if (to.matched.some(record => record.meta.orangtua)) {
+      // jika user bukan orangtua
+      if (store.getters['auth/user'].profile.role == 'orang tua') {
+        
+        next()
+      }
+      else {
+        // tampilkan pesan Unauthorized !
+        store.dispatch('alert/set', {
+          status: true,
+          text: 'Wrong Path !',
+          color: 'error',
+        })
+
+        next('/')
+      }
+    }
+    // Bukan auth, admin, guru lanjut
     else {
       next()
     }
-  } 
+  }
   // Bukan Auth
   else {
     next()

@@ -184,15 +184,25 @@
             <v-card-title>
               Tabulasi Data
               <v-spacer></v-spacer>
-              <v-btn
+
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-card-title>
+
+            <v-btn
                 dark
                 small
                 color="red lighten-1" 
+                class="ma-2"
                 @click="exportPDF"
               >
                 <v-icon dark>mdi-file-pdf-outline</v-icon>
               </v-btn>
-            </v-card-title>
 
             <v-spacer></v-spacer>
 
@@ -208,6 +218,7 @@
                     <td>{{row.index + 1}}</td>
                     <td>{{row.item.user.name}}</td>
                     <td>{{row.item.nilai_akhir}}</td>
+                    <td>{{ row.item.pengguna.name }}</td>
                     <td>{{row.item.keterangan}}</td>
                     <td>{{row.item.tanggal}}</td>
                     <td>{{row.item.masukan}}</td>
@@ -217,6 +228,7 @@
                         class="mx-2"
                         icon
                         color="pink" 
+                        :disabled="row.item.pengguna.role != 'admin'"
                         @click="showDetail(row.item)"
                       >
                           <v-icon dark>mdi-file-document-multiple-outline</v-icon>
@@ -242,7 +254,7 @@
             ripple
           >
             <v-card-title>
-              Chart Tahunan
+              Chart Tahunan Oleh Kepala Sekolah
             </v-card-title>
 
             <v-card-subtitle>
@@ -284,6 +296,7 @@ export default {
           value: 'user',
         },
         { text: 'Nilai', value: 'nilai_akhir' },
+        { text: 'Penilai', value: 'pengguna.name', sortable: false },
         { text: 'Keterangan', value: 'keterangan' },
         { text: 'Tanggal', value: 'tanggal' },
         { text: 'Masukan', value: 'masukan' },
@@ -390,7 +403,7 @@ export default {
     },
 
     showDetail(item) {
-      this.$router.push(`/user/hasil-pkg/${this.idProfile}/${item.id}`)
+      this.$router.push(`/guru/hasil-pkg/${this.idProfile}/${item.id}`)
     },
 
     async exportPDF() {

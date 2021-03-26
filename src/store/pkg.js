@@ -5,6 +5,7 @@ export default {
 
     indikator: [],
     data_guru: '',
+
     nilai_komp1: '',
     nilai_komp2: '',
     nilai_komp3: '',
@@ -19,6 +20,11 @@ export default {
     nilai_komp12: '',
     nilai_komp13: '',
     nilai_komp14: '',
+
+    // nilai_dari_guru: '',
+    // nilai_dari_siswa: '',
+    // nilai_dari_ortu: '',
+
     tanggal: '',
     masukan: ''
 

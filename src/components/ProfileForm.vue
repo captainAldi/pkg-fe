@@ -51,23 +51,115 @@
       ></v-text-field>
 
       <v-text-field
-        v-model="form.nip"
-        label="NIP ..."
-        :rules="formRules.nipRules"
-        filled
-        required
-        class="mb-2"
-      ></v-text-field>
-
-      <v-text-field
-        v-model="form.jam_mengajar"
-        label="Jam Mengajar ..."
-        :rules="formRules.jamMengajarRules"
+        v-model="form.no_hp"
+        label="No HP ..."
+        :rules="formRules.noHpRules"
         filled
         type="number"
         required
         class="mb-2"
       ></v-text-field>
+
+      <section
+        v-if="user.profile.role == 'admin' || user.profile.role == 'guru'"
+      >
+        <v-text-field
+          v-model="form.nip"
+          label="NIP ..."
+          :rules="formRules.nipRules"
+          filled
+          required
+          class="mb-2"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="form.jam_mengajar"
+          label="Jam Mengajar ..."
+          :rules="formRules.jamMengajarRules"
+          filled
+          type="number"
+          required
+          class="mb-2"
+        ></v-text-field>
+
+        <v-combobox
+          v-model="form.mata_pelajaran"
+          label="Mata Pelajaran"
+          :rules="mataPelajaranRules"
+          multiple
+          filled
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
+      </section>
+
+      <section
+        v-if="user.profile.role == 'admin' || user.profile.role == 'guru'"
+      >
+        <v-combobox
+          v-model="form.kelas"
+          label="Kelas"
+          :rules="kelasRules"
+          multiple
+          filled
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
+      </section>
+
+      <section
+        v-if="user.profile.role == 'siswa'"
+      >
+        <v-combobox
+          v-model="form.kelas"
+          label="Kelas"
+          :rules="kelasRules"
+          filled
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
+      </section>
+
+      <section
+        v-if="user.profile.role == 'siswa' && form.parent "
+      >
+        <v-text-field
+            v-model="form.parent.name"
+            label="Nama Orang Tua..."
+            filled
+            disabled
+            required
+            class="mb-2"
+          ></v-text-field>
+      </section>
+
 
       <section
         v-if="currentPhotoProfile != ''"
@@ -151,7 +243,10 @@ export default {
         email: '',
         jam_mengajar: '',
         nip: '',
-        profilePictureLama: ''
+        profilePictureLama: '',
+        mata_pelajaran: [],
+        no_hp: '',
+        kelas: ''
       },
       fileData: null,
       password: null,
@@ -168,6 +263,9 @@ export default {
         ],
         nameRules: [
           v => !!v || 'Nama is required',
+        ],
+        noHpRules: [
+          v => !!v || 'Mata Pelajaran is required',
         ],
       },
       alertObject: {
@@ -196,6 +294,38 @@ export default {
         ]
       } else {
         rules = []
+      }
+
+      return rules
+    },
+
+    mataPelajaranRules() {
+      let rules
+
+      if(this.user.profile.role == 'admin') {
+        rules = [
+          v => !!v || 'Mata Pelajaran is required',
+        ]
+      } else if (this.user.profile.role == 'guru') {
+        rules = [
+          v => !!v || 'Mata Pelajaran is required',
+        ]
+      } else {
+        rules = []
+      }
+
+      return rules
+    },
+
+    kelasRules() {
+      let rules
+
+      if(this.user.profile.role == 'orang tua') {
+        rules = []
+      } else {
+        rules = [
+          v => !!v || 'Kelas is required',
+        ]
       }
 
       return rules
@@ -248,6 +378,20 @@ export default {
         const response = await axios.get(this.api_url + '/profile/' + this.idProfile, config)
 
         this.form = response.data.data
+
+        if(response.data.data.mata_pelajaran != null) {
+          let arrayMapel = response.data.data.mata_pelajaran.split(', ')
+
+          this.form.mata_pelajaran = arrayMapel
+        }
+
+        if(response.data.data.kelas != null) {
+          if(this.user.profile.role == 'guru' || this.user.profile.role == 'admin') {
+            let arrayKelas = response.data.data.kelas.split(', ')
+
+            this.form.kelas = arrayKelas
+          } 
+        }
 
         if(this.form.profile_picture) {
           this.getCurrentPP()
@@ -314,8 +458,6 @@ export default {
           let formData = new FormData()
 
           formData.append('email', this.form.email.toLowerCase())
-          formData.append('jam_mengajar', this.form.jam_mengajar)
-          formData.append('nip', this.form.nip)
           formData.append('name', this.form.name)
           formData.append("_method", "PATCH");
 
@@ -326,6 +468,23 @@ export default {
           if(this.fileData !== null) {
             formData.append('profile_picture', this.fileData)
             formData.append('fileName', this.fileData.name)
+          } 
+
+          formData.append('no_hp', this.form.no_hp)
+
+          if(this.user.profile.role == 'admin' || this.user.profile.role == 'guru') {
+            this.form.kelas.forEach(element => {
+              formData.append('kelas[]', element)
+            })
+
+            this.form.mata_pelajaran.forEach(element => {
+              formData.append('mata_pelajaran[]', element)
+            })
+
+            formData.append('jam_mengajar', this.form.jam_mengajar)
+            formData.append('nip', this.form.nip)
+          } else {
+            formData.append('kelas', this.form.kelas)
           } 
 
           const response = await axios.post(this.api_url + '/profile/' + this.idProfile, formData, config)
@@ -350,23 +509,25 @@ export default {
             status : false,
           })
 
-          if (error.response.status === 422) {
-            this.setAlert({
-              status : true,
-              color  : 'error',
-              text  : 'Inputan tidak Valid !',
-            })
-          } else {
-            this.setAlert({
-              status : true,
-              color  : 'error',
-              text  : 'Internal Server Error !',
-            })
-          }
+          // if (error.response.status === 422) {
+          //   this.setAlert({
+          //     status : true,
+          //     color  : 'error',
+          //     text  : 'Inputan tidak Valid !',
+          //   })
+          // } else {
+          //   this.setAlert({
+          //     status : true,
+          //     color  : 'error',
+          //     text  : 'Internal Server Error !',
+          //   })
+          // }
 
-          this.alertObject.status = true
-          this.alertObject.type = 'error'
-          this.alertObject.message = error.response.data
+          // this.alertObject.status = true
+          // this.alertObject.type = 'error'
+          // this.alertObject.message = error.response.data
+
+          console.log(error)
           
         }
       }

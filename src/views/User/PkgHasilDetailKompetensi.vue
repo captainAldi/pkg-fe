@@ -215,20 +215,55 @@
                 fixed-header
                 height="300px"
               >
+                
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th width="60%">Penilaian</th>
+                    <th>Hasil Penilaian Skala 100</th>
+                    <th>Proporsi</th>
+                    <th>Nilai</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">Nilai PK GURU Kelas/Mata Pelajaran</th>
+                    <td>1</td>
+                    <td>Kepala Sekolah</td>
                     <td>{{ pkgDetailKompetensi.nilaiAkhir }}</td>
+                    <td>70%</td>
+                    <td>{{ pkgDetailKompetensi.rerataKepsek }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Konversi nilai PK GURU ke dalam skala 0 – 100 sesuai Permenneg PAN & RM No. 16 Tahun 2009 dengan rumus NilaiPKG (100) = NilaiPKG × 100</th>
-                    <td>{{ pkgDetailKompetensi.persentaseNilaiAkhir }}</td>
+                    <td>2</td>
+                    <td>Rerata Teman Sejawat</td>
+                    <td>{{ pkgDetailKompetensi.rerataTemanSejawat }}</td>
+                    <td>10%</td>
+                    <td>{{ pkgDetailKompetensi.dariTemanSejawat }}</td>
                   </tr>
                   <tr>
-                    <th scope="row">Berdasarkan hasil konversi ke dalam skala nilai sesuai dengan peraturan tersebut, selanjutnya ditetapkan sebutan dan persentase angka kreditnya</th>
-                    <td>{{ pkgDetailKompetensi.nilaiPkg }}</td>
+                    <td>3</td>
+                    <td>Rerata Orang Tua</td>
+                    <td>{{ pkgDetailKompetensi.rerataOrangTua }}</td>
+                    <td>10%</td>
+                    <td>{{ pkgDetailKompetensi.dariOrangTua }}</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Rerata Siswa</td>
+                    <td>{{ pkgDetailKompetensi.rerataSiswa }}</td>
+                    <td>10%</td>
+                    <td>{{ pkgDetailKompetensi.dariSiswa }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Nilai PKG</td>
+                    <td colspan="3" style="text-align: center;">{{ pkgDetailKompetensi.nilaiPkg }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Sebutan</td>
+                    <td colspan="3" style="text-align: center;">{{ pkgDetailKompetensi.sebutanPkg }}</td>
                   </tr>
                 </tbody>
+
               </v-simple-table>
             </v-card-subtitle>
 

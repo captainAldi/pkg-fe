@@ -15,8 +15,8 @@
     </v-alert>
 
     <v-form
-      ref="formEditGuru"
-      v-model="validEditGuruForm"
+      ref="formEditSiswa"
+      v-model="validEditSiswaForm"
       lazy-validation
     >
 
@@ -77,10 +77,11 @@
           md="4"
         >
           <v-text-field
-            v-model="form.nip"
-            label="NIP ..."
-            :rules="formRules.nipRules"
+            v-model="form.no_hp"
+            label="No HP ..."
+            :rules="formRules.noHpRules"
             filled
+            type="number"
             required
             class="mb-2"
           ></v-text-field>
@@ -90,15 +91,23 @@
           cols="12"
           md="4"
         >
-          <v-text-field
-            v-model="form.jam_mengajar"
-            label="Jam Mengajar ..."
-            :rules="formRules.jamMengajarRules"
+          <v-combobox
+            v-model="form.kelas"
+            label="Kelas"
+            :rules="formRules.kelasRules"
             filled
-            type="number"
-            required
-            class="mb-2"
-          ></v-text-field>
+            small-chips
+          >
+            <template v-slot:no-data>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Press <kbd>enter</kbd> to create a new one
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-combobox>
         </v-col>
 
         <v-col
@@ -124,63 +133,16 @@
           cols="12"
           md="4"
         >
-          <v-text-field
-            v-model="form.no_hp"
-            label="No HP ..."
-            :rules="formRules.noHpRules"
+          <v-autocomplete
+            v-model="form.parent_id"
+          
+            :items="dataParent"
+            dense
             filled
-            type="number"
-            required
-            class="mb-2"
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-combobox
-            v-model="form.mata_pelajaran"
-            label="Mata Pelajaran"
-            :rules="formRules.mataPelajaranRules"
-            multiple
-            filled
-            small-chips
-          >
-            <template v-slot:no-data>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    Press <kbd>enter</kbd> to create a new one
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-combobox>
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-combobox
-            v-model="form.kelas"
-            label="Kelas"
-            :rules="formRules.kelasRules"
-            multiple
-            filled
-            small-chips
-          >
-            <template v-slot:no-data>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    Press <kbd>enter</kbd> to create a new one
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-combobox>
+            label="Orang Tua"
+            item-text="name"
+            item-value="id"
+          ></v-autocomplete>
         </v-col>
       </v-row>
 
@@ -217,7 +179,7 @@
       
 
       <v-btn
-        :disabled="!validEditGuruForm"
+        :disabled="!validEditSiswaForm"
         color="success"
         class="mr-4"
         @click="submit"
@@ -245,44 +207,39 @@ export default {
   data() {
     return {
       api_url: process.env.VUE_APP_API_ENDPOINT,
-      validEditGuruForm: false,
+      validEditSiswaForm: false,
       showPassTextInput: false,
       idProfile: '',
       currentPhotoProfile: '',
       form: {
         name: '',
         email: '',
-        jam_mengajar: '',
-        nip: '',
         profilePictureLama: '',
-        mata_pelajaran: '',
         no_hp: '',
-        kelas: []
+        kelas: '',
+        parent_id: ''
       },
       fileData: null,
       password: null,
+
+      dataParent: [],
+
       formRules: {
         emailRules: [
           v => !!v || 'E-mail is required',
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
-        jamMengajarRules: [
-          v => !!v || 'Jam Mengajar is required',
-        ],
-        nipRules: [
-          v => !!v || 'NIP is required',
-        ],
         nameRules: [
           v => !!v || 'Nama is required',
-        ],
-        mataPelajaranRules: [
-          v => !!v || 'Mata Pelajaran is required',
         ],
         noHpRules: [
           v => !!v || 'Mata Pelajaran is required',
         ],
         kelasRules: [
           v => !!v || 'Kelas is required',
+        ],
+        parentRules: [
+          v => !!v || 'Orang Tua is required',
         ],
       },
       alertObject: {
@@ -295,6 +252,7 @@ export default {
   mounted() {
     this.ambilDataUrl()
     this.getCurrentData()
+    this.getAllParents()
   },
   computed: {
     ...mapGetters({
@@ -348,6 +306,39 @@ export default {
       this.idProfile = this.$route.params.id
     },
 
+    async getAllParents() {
+      try {
+        this.setDialog({
+          status : true,
+        })
+        
+        let config = {
+          headers: {
+            'Authorization': this.user.api_token,
+          }
+        }
+
+        const response = await axios.get(this.api_url + '/profile/get-all-parents', config)
+
+        this.dataParent = response.data.data
+
+        this.setDialog({
+          status : false,
+        })
+
+      } catch (error) {
+        this.setDialog({
+          status : false,
+        })
+        
+        this.setAlert({
+          status : true,
+          color  : 'error',
+          text  : error,
+        })
+      }
+    },
+
     async getCurrentData() {
       try {
         this.setDialog({
@@ -360,21 +351,9 @@ export default {
           }
         }
 
-        const response = await axios.get(this.api_url + '/admin/data/guru/specific/' + this.idProfile, config)
+        const response = await axios.get(this.api_url + '/admin/data/siswa/specific/' + this.idProfile, config)
 
         this.form = response.data.data
-
-        if(response.data.data.mata_pelajaran != null) {
-          let arrayMapel = response.data.data.mata_pelajaran.split(', ')
-
-          this.form.mata_pelajaran = arrayMapel
-        }
-
-        if(response.data.data.kelas != null) {
-          let arrayKelas = response.data.data.kelas.split(', ')
-
-          this.form.kelas = arrayKelas
-        }
 
         if(this.form.profile_picture) {
           this.getCurrentPP()
@@ -409,7 +388,7 @@ export default {
     async submit(e) {
       e.preventDefault()
 
-      if (!this.$refs.formEditGuru.validate()) {
+      if (!this.$refs.formEditSiswa.validate()) {
         this.setAlert({
           status : true,
           color  : 'error',
@@ -432,8 +411,6 @@ export default {
           let formData = new FormData()
 
           formData.append('email', this.form.email)
-          formData.append('jam_mengajar', this.form.jam_mengajar)
-          formData.append('nip', this.form.nip)
           formData.append('name', this.form.name)
           formData.append("_method", "PATCH");
 
@@ -448,15 +425,12 @@ export default {
 
           formData.append('no_hp', this.form.no_hp)
 
-          this.form.mata_pelajaran.forEach(element => {
-            formData.append('mata_pelajaran[]', element)
-          })
+          formData.append('kelas', this.form.kelas)
+          if (this.form.parent_id) {
+            formData.append('parent_id', this.form.parent_id)
+          }
 
-          this.form.kelas.forEach(element => {
-            formData.append('kelas[]', element)
-          })
-
-          const response = await axios.post(this.api_url + '/admin/data/guru/update/' + this.idProfile, formData, config)
+          const response = await axios.post(this.api_url + '/admin/data/siswa/update/' + this.idProfile, formData, config)
 
           this.setDialog({
             status : false,
@@ -500,15 +474,13 @@ export default {
     },
 
     reset() {
-      this.$refs.formEditGuru.resetValidation()
+      this.$refs.formEditSiswa.resetValidation()
       
       this.form.email = ''
       this.password = ''
-      this.form.jam_mengajar = ''
-      this.form.nip = ''
       this.form.name = ''
-      this.form.mata_pelajaran = []
       this.form.no_hp = ''
+      this.form.kelas = ''
       
     },
     

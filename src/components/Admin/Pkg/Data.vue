@@ -25,6 +25,7 @@
               <v-col cols="12" sm="6" md="2">
                 <v-text-field
                   filled
+                  dense
                   clearable
                   v-model="name"
                   label="Nama ..."
@@ -33,8 +34,42 @@
               </v-col>
 
               <v-col cols="12" sm="6" md="2">
+                <v-text-field
+                  filled
+                  dense
+                  clearable
+                  v-model="email"
+                  label="E-Mail ..."
+                  @input="searchByEmail"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" sm="6" md="2">
+                <v-text-field
+                  filled
+                  dense
+                  clearable
+                  v-model="kelas"
+                  label="Kelas ..."
+                  @input="searchByKelas"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                  filled
+                  dense
+                  clearable
+                  v-model="mapel"
+                  label="Mata Pelajaran ..."
+                  @input="searchByMapel"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" sm="6" md="2">
                 <v-select
                   filled
+                  dense
                   clearable
                   v-model="keterangan"
                   label="Keterangan"
@@ -42,10 +77,13 @@
                   :items="keteranganItem"
                 ></v-select>
               </v-col>
+            </v-row>
 
-              <v-col cols="12" sm="6" md="2">
+            <v-row>
+                            <v-col cols="12" sm="6" md="2">
                 <v-menu
                   ref="menuDateFrom"
+                  dense
                   v-model="menuDateFrom"
                   :close-on-content-click="false"
                   :return-value.sync="dateFrom"
@@ -57,6 +95,7 @@
                     <v-text-field
                       v-model="dateFrom"
                       label="From"
+                      dense
                       prepend-icon="mdi-calendar-month"
                       readonly
                       v-bind="attrs"
@@ -87,6 +126,7 @@
                     <v-text-field
                       v-model="dateTo"
                       label="Until"
+                      dense
                       prepend-icon="mdi-calendar-month"
                       readonly
                       clearable
@@ -102,9 +142,7 @@
                   </v-date-picker>
                 </v-menu>
               </v-col>
-            </v-row>
 
-            <v-row>
               <v-col cols="12" sm="6" md="2">
                 <v-select
                   filled
@@ -133,6 +171,8 @@
         class="elevation-4 mt-5"
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
+        
+        item-key="index"
       >
 
         <!-- Untuk Judul / Bagian Atas -->
@@ -181,9 +221,23 @@
 
         <!-- Untuk Kolom User -->
         <template
-          v-slot:[`item.user`]="{ item }"
+          v-slot:[`item.name`]="{ item }"
         >
-          {{item.user.name}}
+          {{item.name}}
+        </template>
+
+        <!-- Untuk Kolom E-Mail -->
+        <template
+          v-slot:[`item.email`]="{ item }"
+        >
+          {{item.email}}
+        </template>
+
+        <!-- Untuk Kolom No HP -->
+        <template
+          v-slot:[`item.no_hp`]="{ item }"
+        >
+          {{item.no_hp}}
         </template>
 
         <!-- Untuk Kolom Nilai -->
@@ -200,18 +254,43 @@
           {{item.keterangan}}
         </template>
 
+        <!-- Untuk Kolom Penilai -->
+        <template
+          v-slot:[`item.pengguna.name`]="{ item }"
+        >
+          {{item.pengguna.name}}
+        </template>
+
+        <!-- Untuk Kolom Mapel -->
+        <template
+          v-slot:[`item.mapel`]="{ item }"
+        >
+          {{item.mapel}}
+        </template>
+
+        <!-- Untuk Kolom Kelas -->
+        <template
+          v-slot:[`item.kelas`]="{ item }"
+        >
+          {{item.kelas}}
+        </template>
+
         <!-- Untuk Kolom Tanggal -->
         <template
           v-slot:[`item.tanggal`]="{ item }"
         >
-          {{item.tanggal}}
+          <td nowrap>
+            {{item.tanggal}}
+          </td>
         </template>
 
         <!-- Untuk Kolom Masukan -->
         <template
           v-slot:[`item.masukan`]="{ item }"
         >
-          {{item.masukan}}
+          <td nowrap>
+            {{item.masukan}}
+          </td>
         </template>
 
         <!-- Untuk Kolom Action -->
@@ -274,6 +353,9 @@ export default {
       api_url: process.env.VUE_APP_API_ENDPOINT,
 
       name: '',
+      email: '',
+      kelas: '',
+      mapel: '',
       keterangan: '',
       page: '1',
 
@@ -357,6 +439,18 @@ export default {
 
     searchByName: _.debounce(function (e) {
       this.$emit('searchName', e)
+    }, 500),
+
+    searchByEmail: _.debounce(function (e) {
+      this.$emit('searchEmail', e)
+    }, 500),
+
+    searchByKelas: _.debounce(function (e) {
+      this.$emit('searchKelas', e)
+    }, 500),
+
+    searchByMapel: _.debounce(function (e) {
+      this.$emit('searchMapel', e)
     }, 500),
 
     searchByKeterangan: _.debounce(function (e) {

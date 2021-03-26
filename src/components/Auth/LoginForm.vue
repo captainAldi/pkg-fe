@@ -115,7 +115,8 @@ export default {
             status : false,
           })
 
-          if(this.prevUrl.length > 0) this.$router.push(this.prevUrl)
+          //if(this.prevUrl.length > 0) this.$router.push(this.prevUrl)
+          this.$router.push('/')
 
         } catch (error) {
 

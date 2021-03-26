@@ -88,13 +88,18 @@ export default {
 
     redirectToHome(){
       setTimeout(() => {
-        let checkAdmin = this.user.profile.role == 'admin'
+        let checkRole = this.user.profile.role
 
-        if (checkAdmin) {
+        if (checkRole == 'admin') {
           this.$router.push('/admin/home')
+        } else if (checkRole == 'guru') {
+          this.$router.push('/guru/home')
+        } else if (checkRole == 'siswa') {
+          this.$router.push('/siswa/home')
         } else {
-          this.$router.push('/user/home')
+          this.$router.push('/orang-tua/home')
         }
+
       }, 3000)
     }
   }

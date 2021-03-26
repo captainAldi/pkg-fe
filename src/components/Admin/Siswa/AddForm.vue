@@ -15,8 +15,8 @@
     </v-alert>
 
     <v-form
-      ref="formAddGuru"
-      v-model="validAddGuruForm"
+      ref="formAddSiswa"
+      v-model="validAddSiswaForm"
       lazy-validation
     >
       <v-row>
@@ -72,61 +72,6 @@
           md="4"
         >
           <v-text-field
-            v-model="form.nip"
-            label="NIP ..."
-            :rules="formRules.nipRules"
-            filled
-            required
-            class="mb-2"
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-text-field
-            v-model="form.jam_mengajar"
-            label="Jam Mengajar ..."
-            :rules="formRules.jamMengajarRules"
-            filled
-            type="number"
-            required
-            class="mb-2"
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-combobox
-            v-model="form.mata_pelajaran"
-            label="Mata Pelajaran"
-            :rules="formRules.mataPelajaranRules"
-            multiple
-            filled
-            small-chips
-          >
-            <template v-slot:no-data>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    Press <kbd>enter</kbd> to create a new one
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-combobox>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-text-field
             v-model="form.no_hp"
             label="No HP ..."
             :rules="formRules.noHpRules"
@@ -145,7 +90,6 @@
             v-model="form.kelas"
             label="Kelas"
             :rules="formRules.kelasRules"
-            multiple
             filled
             small-chips
           >
@@ -168,7 +112,7 @@
           md="4"
         >
           <v-btn
-            :disabled="!validAddGuruForm"
+            :disabled="!validAddSiswaForm"
             color="success"
             class="mr-4"
             @click="submit"
@@ -198,17 +142,14 @@ export default {
   data() {
     return {
       api_url: process.env.VUE_APP_API_ENDPOINT,
-      validAddGuruForm: false,
+      validAddSiswaForm: false,
       showPassTextInput: false,
       form: {
         name: '',
         email: '',
         password: '',
-        jam_mengajar: '',
-        nip: '',
-        mata_pelajaran: [],
         no_hp: '',
-        kelas: []
+        kelas: ''
       },
       formRules: {
         emailRules: [
@@ -219,20 +160,11 @@ export default {
           v => !!v || 'Password is required',
           v => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~`!$%@#£€*?&^()<>,.\-+=_|/;:'"{}[\s]{6,}$/.test(v) || "Use At Least 6 Characters, with Letter and Number"
         ],
-        jamMengajarRules: [
-          v => !!v || 'Jam Mengajar is required',
-        ],
-        nipRules: [
-          v => !!v || 'NIP is required',
-        ],
         nameRules: [
           v => !!v || 'Nama is required',
         ],
-        mataPelajaranRules: [
-          v => !!v || 'Mata Pelajaran is required',
-        ],
         kelasRules: [
-          v => v.length > 0 || 'Kelas is required',
+          v => !!v|| 'Kelas is required',
         ],
         noHpRules: [
           v => !!v || 'Mata Pelajaran is required',
@@ -264,7 +196,7 @@ export default {
     async submit(e) {
       e.preventDefault()
 
-      if (!this.$refs.formAddGuru.validate()) {
+      if (!this.$refs.formAddSiswa.validate()) {
         this.setAlert({
           status : true,
           color  : 'error',
@@ -285,22 +217,14 @@ export default {
 
           let formData = new FormData()
 
+          formData.append('name', this.form.name)
           formData.append('email', this.form.email)
           formData.append('password', this.form.password)
-          formData.append('jam_mengajar', this.form.jam_mengajar)
-          formData.append('nip', this.form.nip)
-          formData.append('name', this.form.name)
           formData.append('no_hp', this.form.no_hp)
 
-          this.form.mata_pelajaran.forEach(element => {
-            formData.append('mata_pelajaran[]', element)
-          })
+          formData.append('kelas', this.form.kelas)
 
-          this.form.kelas.forEach(element => {
-            formData.append('kelas[]', element)
-          })
-
-          const response = await axios.post(this.api_url + '/admin/data/guru/create', formData, config)
+          const response = await axios.post(this.api_url + '/admin/data/siswa/create', formData, config)
 
           this.setDialog({
             status : false,
@@ -342,16 +266,13 @@ export default {
     },
 
     reset() {
-      this.$refs.formAddGuru.resetValidation()
+      this.$refs.formAddSiswa.resetValidation()
       
       this.form.email = ''
       this.form.password = ''
-      this.form.jam_mengajar = ''
-      this.form.nip = ''
       this.form.name = ''
-      this.form.mata_pelajaran = []
       this.form.no_hp = ''
-      this.form.kelas = []
+      this.form.kelas = ''
       
     },
     

@@ -21,6 +21,11 @@
             @per_page="handlePerPage" 
             @pagination="handlePagination" 
             @searchName="handleSearchName" 
+
+            @searchEmail="handleSearchEmail"
+            @searchKelas="handleSearchKelas" 
+            @searchMapel="handleSearchMapel"
+
             @searchKeterangan="handleSearchKeterangan" 
             @searchDateTo="handleSearchDateTo"
             @searchDateFrom="handleSearchDateFrom"
@@ -49,14 +54,27 @@ export default {
       allPkgData: [],
       headers: [
         {
-          text: 'Nama',
+          text: 'Nama Guru',
           align: 'start',
           value: 'name',
         },
+        {
+          text: 'E-Mail',
+          align: 'start',
+          value: 'email',
+        },
+        {
+          text: 'No HP',
+          align: 'start',
+          value: 'no_hp',
+        },
         { text: 'Nilai', value: 'nilai_akhir' },
         { text: 'Keterangan', value: 'keterangan' },
+        { text: 'Penilai', value: 'pengguna.name', sortable: false },
+        { text: 'Mata Pelajaran', value: 'mata_pelajaran', sortable: false },
+        { text: 'Kelas', value: 'kelas', sortable: false },
         { text: 'Tanggal', value: 'tanggal' },
-        { text: 'Masukan', value: 'masukan' },
+        { text: 'Masukan', value: 'masukan', align: 'start' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
       meta: [],
@@ -70,7 +88,11 @@ export default {
       searchName: '',
       searchKeterangan: '',
       searchDateFrom: '',
-      searchDateTo: ''
+      searchDateTo: '',
+
+      searchEmail: '',
+      searchKelas: '',
+      searchMapel: ''
 
     }
   },
@@ -107,7 +129,10 @@ export default {
             name: this.searchName,
             keterangan: this.searchKeterangan,
             dateFrom: this.searchDateFrom,
-            dateTo: this.searchDateTo
+            dateTo: this.searchDateTo,
+            kelas: this.searchKelas,
+            mapel: this.searchMapel,
+            email: this.searchEmail
           }
         }
 
@@ -166,6 +191,24 @@ export default {
     handleSearchName(val) {
         this.current_page = '1' 
         this.searchName = val
+        this.loadData()
+    },
+
+    handleSearchEmail(val) {
+        this.current_page = '1' 
+        this.searchEmail = val
+        this.loadData()
+    },
+
+    handleSearchKelas(val) {
+        this.current_page = '1' 
+        this.searchKelas = val
+        this.loadData()
+    },
+
+    handleSearchMapel(val) {
+        this.current_page = '1' 
+        this.searchMapel = val
         this.loadData()
     },
 
