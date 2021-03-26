@@ -107,7 +107,7 @@
       >
         <v-combobox
           v-model="form.kelas"
-          label="Kelas"
+          label="Kelas Admin"
           :rules="kelasRules"
           multiple
           filled
@@ -130,7 +130,7 @@
       >
         <v-combobox
           v-model="form.kelas"
-          label="Kelas"
+          label="Kelas Siswa"
           :rules="kelasRules"
           filled
           small-chips
@@ -459,6 +459,7 @@ export default {
 
           formData.append('email', this.form.email.toLowerCase())
           formData.append('name', this.form.name)
+          formData.append('role', this.user.profile.role)
           formData.append("_method", "PATCH");
 
           if(this.password != null) {

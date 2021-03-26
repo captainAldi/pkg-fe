@@ -7,9 +7,7 @@
             <h1>Pertanyaan PKG</h1>
           </v-col>
         </v-row>
-        {{dataPkg}}
-        <br>
-        {{jawabanParsial}}
+
         <v-row>
           <v-col
             cols="12"

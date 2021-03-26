@@ -217,7 +217,7 @@ export default {
           let firstKomponenId
 
           if(this.user.profile.role == 'guru') {
-            checkRole = 'teman-sejawat'
+            checkRole = 'guru'
             firstKomponenId = '1'
           } else if(this.user.profile.role == 'siswa') {
             checkRole = 'siswa'
